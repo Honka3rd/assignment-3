@@ -4,6 +4,16 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'converter'
 })
 export class ConverterPipe implements PipeTransform {
+  prePosition:any;
+  constructor(){
+    this.prePosition = [
+      'is',
+      'a',
+      'of',
+      'for',
+      'the'
+    ]
+  }
 
   transform(value: string){
     if(!value)
@@ -14,16 +24,31 @@ export class ConverterPipe implements PipeTransform {
     let output = [];
     for(let e of input){
       let word = [];
-      if(e.toLowerCase()==='of'||e.toLowerCase()==='the'){
+      if(this.prePosition.includes(e.toLowerCase())){
         output.push(e.toLowerCase());
       }else{
-        word.push(e[0].toUpperCase());
+        try{
+          word.push(e[0].toUpperCase());
+        }catch(err){
+          console.log(err);
+        }
+       
         for(let i=1;i<e.length;i++){
           word.push(e[i].toLowerCase());
         }
         output.push(word.join(''));
       }
     }
-    return output.join(' ');
+    let outStr = output.join(' ');
+    let result = '';
+    try{
+      result += outStr[0].toUpperCase();
+    }catch(err){
+      console.log(err);
+    }
+    
+    result += outStr.substr(1,outStr.length);
+    
+    return result;
   }
 }
