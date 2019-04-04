@@ -6,6 +6,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ConverterPipe implements PipeTransform {
 
   transform(value: string){
+    if(!value)
+      return null;
+
     let input = [];
     input = value.split(' ');
     let output = [];
